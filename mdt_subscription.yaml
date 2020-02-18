@@ -1,0 +1,29 @@
+---
+- hosts: cat9k_2
+  gather_facts: no
+  connection: netconf
+  remote_user: cisco
+ 
+  tasks:
+  - name: establish subscription
+    netconf_config:
+      xml: |
+          <config>
+            <mdt-config-data xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-mdt-cfg">
+              <mdt-subscription>
+                <subscription-id>958</subscription-id>
+                <base>
+                  <stream>yang-push</stream>
+                  <encoding>encode-kvgpb</encoding>
+                  <period>10000</period>
+                  <xpath>/mdt-oper:mdt-oper-data/mdt-subscriptions</xpath>
+                </base>
+                <mdt-receivers>
+                  <address>172.26.198.45</address>
+                  <port>57500</port>
+                  <protocol>grpc-tcp</protocol>
+                </mdt-receivers>
+              </mdt-subscription>
+            </mdt-config-data>
+          </config>
+      

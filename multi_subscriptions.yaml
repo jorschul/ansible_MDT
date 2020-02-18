@@ -1,0 +1,61 @@
+---
+- hosts: cat9k_2
+  gather_facts: no
+  connection: netconf
+  remote_user: cisco
+ 
+  tasks:
+  - name: establish subscription
+    netconf_config:
+      xml: |
+          <config>
+            <mdt-config-data xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-mdt-cfg">
+              <mdt-subscription>
+                <subscription-id>501</subscription-id>
+                <base>
+                  <stream>yang-push</stream>
+                  <encoding>encode-kvgpb</encoding>
+                  <source-address>172.26.198.63</source-address>
+                  <period>1000</period>
+                  <xpath>/process-cpu-ios-xe-oper:cpu-usage/cpu-utilization/five-seconds</xpath>
+                </base>
+                <mdt-receivers>
+                  <address>172.26.198.43</address>
+                  <port>57500</port>
+                  <protocol>grpc-tcp</protocol>
+                </mdt-receivers>
+              </mdt-subscription>
+
+              <mdt-subscription>
+                <subscription-id>502</subscription-id>
+                <base>
+                  <stream>yang-push</stream>
+                  <encoding>encode-kvgpb</encoding>
+                  <source-address>172.26.198.63</source-address>
+                  <period>1000</period>
+                  <xpath>/memory-ios-xe-oper:memory-statistics/memory-statistic</xpath>
+                </base>
+                <mdt-receivers>
+                  <address>172.26.198.43</address>
+                  <port>57500</port>
+                  <protocol>grpc-tcp</protocol>
+                </mdt-receivers>
+              </mdt-subscription>
+
+              <mdt-subscription>
+                <subscription-id>503</subscription-id>
+                <base>
+                  <stream>yang-push</stream>
+                  <encoding>encode-kvgpb</encoding>
+                  <source-address>172.26.198.63</source-address>
+                  <period>1000</period>
+                  <xpath>/if:interfaces-state/interface[name="TenGigabitEthernet1/0/24"]/statistics</xpath>
+                </base>
+                <mdt-receivers>
+                  <address>172.26.198.43</address>
+                  <port>57500</port>
+                  <protocol>grpc-tcp</protocol>
+                </mdt-receivers>
+              </mdt-subscription>
+            </mdt-config-data>
+          </config>          

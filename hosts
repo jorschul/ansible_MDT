@@ -1,0 +1,15 @@
+[cat9k_2]
+172.26.198.63
+
+[cat9k_1]
+172.26.198.61
+
+[ios-xe:children]
+cat9k_2
+cat9k_1
+
+[ios-xe:vars]
+ansible_connection=netconf
+ansible_network_os=ios
+
+
